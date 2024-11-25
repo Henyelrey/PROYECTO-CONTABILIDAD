@@ -1,14 +1,15 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrar Compra</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
+@extends('adminlte::page')
+
+@section('title', 'Dashboard')
+
+@section('content_header')
+    <h1>Dashboard</h1>
+@stop
+
+
+@section('content')
     <div class="container mt-5">
-        <h1>Registrar Compra</h1>
+        <h1>Registrar Asientos</h1>
         <form action="{{ route('compras.store') }}" method="POST">
             @csrf
             <div class="mb-3">
@@ -16,10 +17,10 @@
                 <input type="date" class="form-control" id="fecha" name="fecha" required>
             </div>
             <div class="mb-3">
-                <label for="total" class="form-label">Total</label>
+                <label for="total" class="form-label">Ingrese la base imponible</label>
                 <input type="number" class="form-control" id="total" name="total" required step="0.01">
             </div>
-            <button type="submit" class="btn btn-primary">Registrar Compra</button>
+            <button type="submit" class="btn btn-primary">Registrar asiento</button>
         </form>
     </div>
 
@@ -29,5 +30,5 @@
     @endif
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+
+    @stop

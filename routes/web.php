@@ -12,6 +12,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\VentaController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AsientoContableController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,6 +67,11 @@ Route::post('/compras', [ContabilidadController::class, 'storeCompra'])->name('c
 
 Route::get('/ventas', [ContabilidadController::class, 'showVentaForm'])->name('ventas.form');
 Route::post('/ventas', [ContabilidadController::class, 'storeVenta'])->name('ventas.store');
+
+Route::post('/ventas', [ContabilidadController::class, 'storeVenta'])->name('ventas.store');
+
+
+Route::get('/asientos-contables', [AsientoContableController::class, 'index']);
 
 
 

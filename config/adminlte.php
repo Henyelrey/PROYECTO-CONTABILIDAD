@@ -358,17 +358,21 @@ return [
             ],
         ],
         [
-            'text'        => 'Compras',
+            'text'        => 'asientos',
             'url'         => '/compras',
             'icon'        => 'fas fa-fw fa-shopping-cart',
             'submenu' => [
                 [
-                    'text' => 'Asiento compras',
+                    'text' => 'Realizar Asientos',
                     'url'  => '/compras',
                 ],
                 [
-                    'text' => 'Asiento Ventas',
+                    'text' => 'Ver Asientos',
                     'url'  => '/ventas',
+                ],
+                [
+                    'text' => 'Ver ',
+                    'url'  => '/asientos-contables',
                 ],
             ],
         ]

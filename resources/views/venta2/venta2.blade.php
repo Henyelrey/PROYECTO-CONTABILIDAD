@@ -1,38 +1,39 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrar Venta</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-    <div class="container mt-5">
-        <h1>Registrar Compra</h1>
-        <form action="{{ route('ventas.store') }}" method="POST">
-            @csrf
-            <div class="mb-3">
-                <label for="fecha" class="form-label">Fecha</label>
-                <input type="date" class="form-control" id="fecha" name="fecha" required>
-            </div>
-            <div class="form-group col-md-4">
-                <label for="buscarCliente">Buscar Cliente</label>
-                <input id="buscarCliente" class="form-control" type="text" placeholder="Buscar Cliente">
-                <input id="id_cliente" class="form-control" type="hidden">
-            </div>
-            <div class="mb-3">
-                <label for="total" class="form-label">Total</label>
-                <input type="number" class="form-control" id="total" name="total" required step="0.01">
-            </div>
-            <button type="submit" class="btn btn-primary">Registrar Venta</button>
-        </form>
-    </div>
+@extends('adminlte::page')
 
-    <!-- Mostrar mensaje de éxito o error -->
-    @if(session('message'))
-        <div class="alert alert-success mt-3">{{ session('message') }}</div>
-    @endif
+@section('title', 'Dashboard')
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+@section('content_header')
+    <h1>Dashboard</h1>
+@stop
+
+
+@section('content')
+<div class="table-responsive">
+    <table class="table table-striped table-hover display responsive nowrap" width="100%" id="tblClients">
+        <thead class="thead">
+            <tr>
+                <th>Id</th>
+                <th>compra id</th>
+                <th>venta id</th>
+                <th>Descripcion</th>
+                <th>base imponible</th>
+                <th>IGV</th>
+                <th>Precio total</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach ($asientos as $asiento)!-- Iterar sobre la variable $ventas2 y usar $compra -->
+                <tr>
+                    <td>{{ $compra->id }}</td> <!-- Acceder a los datos de $compra -->
+                    <td>{{ $compra->compra_id }}</td>
+                    <td>{{ $compra->venta_id }}</td>
+                    <td>{{ $compra->descripcion }}</td>
+                    <td>{{ $compra->BI }}</td>
+                    <td>{{ $compra->IGV }}</td>
+                    <td>{{ $compra->total }}</td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+@stop

@@ -12,7 +12,6 @@
             <div class="card">
                 <div class="card-header">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
-
                         <span id="card_title">
                             {{ __('ventas') }}
                         </span>
@@ -20,15 +19,16 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-striped table-hover display responsive nowrap" width="100%"
-                            id="tblVentas">
+                        <table class="table table-striped table-hover display responsive nowrap" width="100%" id="tblVentas">
                             <thead class="thead">
                                 <tr>
                                     <th>Id</th>
-                                    <th>Monto</th>
+                                    <th>Base Imponible</th>
+                                    <th>IGV</th>
+                                    <th>Total</th>
                                     <th>Cliente</th>
                                     <th>Fecha/Hora</th>
-                                    <th></th>
+                                    <th>Acciones</th>
                                 </tr>
                             </thead>
                         </table>
@@ -40,12 +40,12 @@
 @stop
 
 @section('css')
-    <link href="{{asset('DataTables/datatables.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('DataTables/datatables.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
 @endsection
 
 @section('js')
-    <script src="{{asset('DataTables/datatables.min.js')}}"></script>
+    <script src="{{ asset('DataTables/datatables.min.js') }}"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             new DataTable('#tblVentas', {
@@ -55,26 +55,36 @@
                     url: '{{ route('sales.list') }}',
                     dataSrc: 'data'
                 },
-                columns: [{
-                        data: 'id'
+                columns: [
+                    { data: 'id' },
+                    { 
+                        data: 'base_imponible', 
+                        render: function(data) {
+                            return `S/ ${parseFloat(data).toFixed(2)}`; // Formato moneda
+                        }
                     },
-                    {
-                        data: 'total'
+                    { 
+                        data: 'igv', 
+                        render: function(data) {
+                            return `S/ ${parseFloat(data).toFixed(2)}`;
+                        }
                     },
-                    {
-                        data: 'nombre'
+                    { 
+                        data: 'total', 
+                        render: function(data) {
+                            return `S/ ${parseFloat(data).toFixed(2)}`;
+                        }
                     },
+                    { data: 'nombre' },
+                    { data: 'created_at' },
                     {
-                        data: 'created_at'
-                    },
-                    {
-                        // Agregar columna para acciones
                         data: null,
                         render: function(data, type, row) {
-                            // Agregar botones de editar y eliminar
                             return '<a class="btn btn-sm btn-primary" target="_blank" href="/venta/' +
-                                row.id + '/ticket">Ticket</a>';
+                                row.id + '/ticket">Ticket</a>&nbsp;' + 
+                                '<a class="btn btn-sm btn-success" href="/venta/' + row.id + '/asientov">Asiento Venta</a>';
                         }
+
                     }
                 ],
                 language: {

@@ -54,6 +54,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/venta/cliente', [VentaController::class, 'cliente'])->name('venta.cliente');
     Route::post('/venta', [VentaController::class, 'store'])->name('venta.store');
     Route::get('/venta/{id}/ticket', [VentaController::class, 'ticket'])->name('venta.ticket');
+    Route::get('/venta/{id}/asientov', [VentaController::class, 'asientov'])->name('venta.asientov');
 
 
     Route::post('/compra/{compra}/asiento', [ContabilidadController::class, 'generarAsientoCompra']);

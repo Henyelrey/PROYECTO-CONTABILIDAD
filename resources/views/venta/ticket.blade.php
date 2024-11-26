@@ -72,14 +72,14 @@
             <p>{{$company->telefono}}</p>
             <p>{{$company->correo}}</p>
         </div>
-        ==================================
         <div class="ticket-details">
             <p>Fecha: {{ $fecha . ' ' . $hora }}</p>
             <p>Folio: {{ $venta->id }}</p>
-            ==================================
-            <p>Cliente: {{ $venta->nombre}}</p>
+            <hr>
+            <p>Cliente: {{ $venta->nombre }}</p>
             <p>Teléfono: {{ $venta->telefono }}</p>
             <p>Dirección: {{ $venta->direccion }}</p>
+            <hr>
             <table>
                 <thead>
                     <tr>
@@ -96,9 +96,9 @@
                         <tr>
                             <td>{{ $producto->cantidad }}</td>
                             <td>{{ $producto->producto }}</td>
-                            <td>{{ $producto->precio }}</td>
+                            <td>${{ number_format($producto->precio, 2) }}</td>
                         </tr>
-                    @endforeach                    
+                    @endforeach
                 </tbody>
                 <tfoot>
                     <tr>
@@ -106,7 +106,20 @@
                     </tr>
                     <tr>
                         <td colspan="2">Total</td>
-                        <td><h4>{{ $venta->total }}</h4></td>
+                        <td><h4>${{ number_format($venta->total, 2) }}</h4></td>
+                    </tr>
+                    <!-- Agregamos el cálculo de Base Imponible e IGV -->
+                    @php
+                        $baseImponible = $venta->total / 1.18; // Suponemos un 18% de IGV
+                        $igv = $venta->total - $baseImponible;
+                    @endphp
+                    <tr>
+                        <td colspan="2">Base Imponible</td>
+                        <td>${{ number_format($baseImponible, 2) }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">IGV (18%)</td>
+                        <td>${{ number_format($igv, 2) }}</td>
                     </tr>
                 </tfoot>
             </table>
@@ -115,6 +128,7 @@
 </body>
 
 </html>
+
 @php
     header("Content-type: application/pdf");
 @endphp

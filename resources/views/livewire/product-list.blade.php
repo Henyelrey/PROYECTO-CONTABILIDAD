@@ -33,9 +33,8 @@
                 {{ $products->links() }}
             </div>
         </div>
-
-
     </div>
+
     <div class="col-md-5">
         <div class="card">
             <div class="card-body">
@@ -66,7 +65,6 @@
                                 <td>${{ number_format($item->price, 2) }}</td>
                                 <td><button wire:click="removeFromCart('{{ $item->rowId }}')"
                                         class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button></td>
-                                <!-- Agrega más columnas según tus necesidades -->
                             </tr>
                         @endforeach
                     </tbody>
@@ -74,8 +72,17 @@
             </div>
             <div class="card-footer">
                 <h3>Total del Carrito: ${{ Cart::subtotal() }}</h3>
+
+                <!-- Base Imponible e IGV -->
+                @php
+                    $baseImponible = Cart::subtotal() / 1.18; // Supuesto 18% de IGV
+                    $igv = Cart::subtotal() - $baseImponible;
+                @endphp
+
+                <p><strong>Base Imponible:</strong> ${{ number_format($baseImponible, 2) }}</p>
+                <p><strong>IGV (18%):</strong> ${{ number_format($igv, 2) }}</p>
+                <p><strong>Total:</strong> ${{ number_format(Cart::subtotal(), 2) }}</p>
             </div>
         </div>
     </div>
-
 </div>

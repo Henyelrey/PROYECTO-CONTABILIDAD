@@ -32,18 +32,31 @@ class VentaController extends Controller
     public function store(Request $request)
     {
         $datosVenta = $request->all();
-
+    
         $id_cliente = $datosVenta['id_cliente'];
-        //registrar venta
-        $total = Cart::subtotal();
+        // Calcular totales
+        $total = Cart::subtotal(); // Total con IGV incluido
         if ($total > 0) {
             $userId = Auth::id();
+    
+            // Cálculo de base imponible e IGV
+            $base_imponible = $total / 1.18; // Suponiendo que el IGV es del 18%
+            $igv = $total - $base_imponible;
+    
+            // Crear la venta con los nuevos campos
             $sale = Venta::create([
                 'total' => $total,
+                'base_imponible' => $base_imponible,
+                'igv' => $igv,
                 'id_cliente' => $id_cliente,
                 'id_usuario' => $userId,
+                'cuentas_por_cobrar' => $total,         // Cuentas por cobrar comerciales
+                'ventas_mercaderias' => $base_imponible, // Ventas sin IGV
+                'tributos_igv' => $igv,                 // Monto del IGV
             ]);
+    
             if ($sale) {
+                // Registrar los detalles de la venta
                 foreach (Cart::content() as $item) {
                     Detalleventa::create([
                         'precio' => $item->price,
@@ -52,7 +65,10 @@ class VentaController extends Controller
                         'id_venta' => $sale->id
                     ]);
                 }
+                // Vaciar el carrito
                 Cart::destroy();
+    
+                // Retornar respuesta de éxito
                 return response()->json([
                     'title' => 'VENTA GENERADA',
                     'icon' => 'success',
@@ -60,12 +76,14 @@ class VentaController extends Controller
                 ]);
             }
         } else {
+            // Retornar respuesta si el carrito está vacío
             return response()->json([
                 'title' => 'CARRITO VACIO',
                 'icon' => 'warning'
             ]);
         }
     }
+    
 
     public function ticket($id)
     {
@@ -109,4 +127,37 @@ class VentaController extends Controller
             ->get();
         return response()->json($clients);
     }
+    
+    public function asientov($id)
+    {
+        // Obtener la compañia
+        $data['company'] = Compania::first();
+    
+        // Obtener la venta con sus datos contables
+        $data['venta'] = Venta::select('cuentas_por_cobrar', 'ventas_mercaderias', 'tributos_igv', 'total')
+            ->where('id', $id)
+            ->first();
+    
+        // Obtener los datos contables
+        $data['cuentas_por_cobrar'] = number_format($data['venta']->cuentas_por_cobrar, 2);
+        $data['ventas_mercaderias'] = number_format($data['venta']->ventas_mercaderias, 2);
+        $data['tributos_igv'] = number_format($data['venta']->tributos_igv, 2);
+        $data['total'] = number_format($data['venta']->total, 2);
+        $fecha_venta = $data['venta']['created_at'];
+        $data['fecha'] = date('d/m/Y', strtotime($fecha_venta));
+        $data['hora'] = date('h:i A', strtotime($fecha_venta));
+    
+        // Generar el contenido del asiento contable en HTML
+        $html = View::make('venta.asientov', $data)->render();
+    
+        // Configuración para la generación del PDF
+        Pdf::setOption(['dpi' => 150, 'defaultFont' => 'sans-serif']);
+    
+        // Generar el PDF utilizando laravel-dompdf
+        $pdf = Pdf::loadHTML($html)->setPaper('A4', 'portrait')->setWarnings(false);
+    
+        return $pdf->stream('asientov.pdf');
+    }
+    
+    
 }

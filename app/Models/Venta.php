@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Venta extends Model
 {
-  protected $fillable = ['total', 'id_cliente', 'id_usuario'];
+  protected $fillable = ['total','base_imponible','igv','id_cliente','id_usuario','cuentas_por_cobrar','ventas_mercaderias','tributos_igv'];
 
   public function detalleventa()
   {

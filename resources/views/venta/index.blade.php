@@ -12,7 +12,6 @@
             <div class="card">
                 <div class="card-header">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
-
                         <span id="card_title">
                             {{ __('Nueva venta') }}
                         </span>
@@ -27,6 +26,7 @@
                 </div>
                 <div class="card-body">
 
+                    <!-- Sección de datos del cliente -->
                     <div class="row">
                         <div class="form-group col-md-4">
                             <label for="buscarCliente">Buscar Cliente</label>
@@ -40,13 +40,15 @@
                         </div>
 
                         <div class="form-group col-md-4">
-                            <label for="dir_cliente">Direccion</label>
+                            <label for="dir_cliente">Dirección</label>
                             <input id="dir_cliente" class="form-control" type="text" disabled>
                         </div>
                     </div>
 
+                    <!-- Componente Livewire -->
                     @livewire('product-list')
 
+                    <!-- Botón para procesar la venta -->
                     <button class="btn btn-primary fixed-button" id="btnVenta" type="button">Generar</button>
                 </div>
             </div>
@@ -74,20 +76,19 @@
                             term: request.term
                         },
                         success: function(data) {
-                            if (data.length === 0) {
-                                errorCliente.textContent = "No se encontraron resultados.";
-                            }
                             response(data);
                         }
                     });
                 },
-                minLength: 2, // Número mínimo de caracteres para mostrar sugerencias
+                minLength: 2,
                 select: function(event, ui) {
                     id_cliente.value = ui.item.id;
-                    tel_cliente.value = ui.item.telefono,
-                        dir_cliente.value = ui.item.direccion
+                    tel_cliente.value = ui.item.telefono;
+                    dir_cliente.value = ui.item.direccion;
                 }
             });
+
+            // Procesar la venta
             btnVenta.addEventListener('click', function() {
                 if (id_cliente.value == '') {
                     Swal.fire({
@@ -116,9 +117,7 @@
                                         id_cliente: id_cliente.value
                                     })
                                 })
-                                .then(response => {
-                                    return response.json();
-                                })
+                                .then(response => response.json())
                                 .then(data => {
                                     Swal.fire({
                                         title: "Respuesta",
@@ -131,19 +130,15 @@
                                                 '/ticket', '_blank');
                                             window.location.reload();
                                         }, 1500);
-                                    } else {
-
                                     }
                                 })
                                 .catch(error => {
-                                    // Manejar errores
                                     console.error('Error: ', error);
                                 });
                         }
                     });
                 }
-
-            })
-        })
+            });
+        });
     </script>
 @stop

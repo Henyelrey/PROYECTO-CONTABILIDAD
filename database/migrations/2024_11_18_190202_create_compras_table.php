@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('descripcion', 255);
             $table->date('fecha');
             $table->decimal('total', 10, 2);
+            $table->unsignedBigInteger('proveedor_id'); // Agregar columna proveedor_id
+            $table->foreign('proveedor_id')->references('id')->on('proveedores')->onDelete('cascade'); // Definir la clave foránea
             $table->timestamps();
         });
     }

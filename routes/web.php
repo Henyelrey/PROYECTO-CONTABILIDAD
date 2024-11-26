@@ -13,6 +13,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\VentaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AsientoContableController;
+use App\Http\Controllers\ProveedorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,6 +59,8 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/compra/{compra}/asiento', [ContabilidadController::class, 'generarAsientoCompra']);
     Route::post('/venta/{venta}/asiento', [ContabilidadController::class, 'generarAsientoVenta']);
+    Route::resource('proveedores', ProveedorController::class);
+    Route::get('/listarProveedores', [ProveedorController::class, 'index'])->name('proveedores.list');
 
 
 

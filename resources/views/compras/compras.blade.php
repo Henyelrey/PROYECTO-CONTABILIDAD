@@ -27,6 +27,14 @@
                         <input type="text" class="form-control" id="descripcion" name="descripcion" required
                             maxlength="255">
                     </div>
+                    <div class="mb-3">
+                        <label for="proveedor_id" class="form-label">Proveedor</label>
+                        <input type="text" class="form-control" id="proveedor_id" name="proveedor_id" required
+                        maxlength="255">
+
+                        </select>
+                    </div>
+
                 </div>
             </div>
             <button type="submit" class="btn btn-primary">Registrar asiento</button>

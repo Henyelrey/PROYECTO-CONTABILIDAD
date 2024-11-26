@@ -28,6 +28,7 @@ class ContabilidadController extends Controller
             'fecha' => 'required|date',
             'total' => 'required|numeric',
             'descripcion' => 'required|string|max:255', // Validación para la descripción
+            'proveedor_id' => 'required|exists:proveedores,id',
 
         ]);
 
@@ -35,6 +36,7 @@ class ContabilidadController extends Controller
             'fecha' => $request->fecha,
             'total' => $request->total,
             'descripcion' => $request->descripcion, // Guardar la descripción
+            'proveedor_id' => $request->proveedor_id, // Guardar el proveedor_id
 
         ]);
 
@@ -62,6 +64,7 @@ class ContabilidadController extends Controller
     // Crear el asiento contable con los valores calculados
     $compra->asientosContables()->create([
         'descripcion' => $compra->descripcion. " Compra reallizada el: ". $compra->fecha,
+        'proveedor' => $compra->proveedor_id,
         'debito' => $total,   // El total con IGV
         'credito' => 0,
         'BI' => $compra->total,

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Compra extends Model
 {
     use HasFactory;
-    protected $fillable = ['fecha', 'total'];
+    protected $fillable = ['fecha', 'total', 'descripcion'];
 
     public function asientosContables()
     {

@@ -9,7 +9,7 @@ class AsientoContable extends Model
 {
     use HasFactory;
     protected $table = 'asientos_contables';
-    protected $fillable = ['compra_id', 'venta_id', 'descripcion', 'BI','IGV','total', 'debito', 'credito'];
+    protected $fillable = ['compra_id', 'venta_id', 'descripcion', 'proveedor', 'BI','IGV','total', 'debito', 'credito'];
 
      // Relación con Compra
      public function compra()

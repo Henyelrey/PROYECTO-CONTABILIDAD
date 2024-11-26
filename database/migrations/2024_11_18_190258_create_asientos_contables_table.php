@@ -16,6 +16,7 @@ return new class extends Migration
     $table->foreignId('compra_id')->nullable()->constrained('compras')->onDelete('set null');
     $table->foreignId('venta_id')->nullable()->constrained('ventas')->onDelete('set null');
     $table->string('descripcion');
+    $table->string('proveedor');
     $table->string('BI', 10, 2)->nullable();;
     $table->string('IGV', 10, 2)->nullable();;
     $table->string('total', 10, 2)->nullable();;

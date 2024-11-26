@@ -372,7 +372,23 @@ return [
                     'url'  => '/asientos-contables',
                 ],
             ],
-        ]
+        ],
+        [
+            'text' => 'Proveedores',
+            'url'  => '#',
+            'icon' => 'fas fa-fw fa-users',
+            'submenu' => [
+                [
+                    'text' => 'Nuevo Proveedor',
+                    'url'  => '/proveedores/create',
+                ],
+                [
+                    'text' => 'Lista de Proveedores',
+                    'url'  => '/proveedores',
+                ],
+            ],
+        ],
+
     ],
 
     /*

@@ -30,7 +30,13 @@ Route::get('/', [AuthenticatedSessionController::class, 'create'])
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    
+
+
+
+});
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -76,9 +82,5 @@ Route::post('/ventas', [ContabilidadController::class, 'storeVenta'])->name('ven
 
 
 Route::get('/asientos-contables', [AsientoContableController::class, 'index']);
-
-
-
-});
 
 require __DIR__ . '/auth.php';
